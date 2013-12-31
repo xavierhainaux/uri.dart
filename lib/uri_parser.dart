@@ -166,6 +166,8 @@ class UriParser extends UriPattern {
 
   Uri expand(Map<String, Object> parameters) =>
       Uri.parse(template.expand(parameters));
+
+  String toString() => template.toString();
 }
 
 /*
@@ -227,7 +229,7 @@ class _Compiler {
           pathBuffer.write(expr.split(',').map((varspec) {
             // store the variable name
             pathVariables.add(_varspecRegex.firstMatch(varspec).group(1));
-            return r'((?:\w|%)+)';
+            return r"((?:[^/:/@!$&'()*+,;=\]\[\?\#])+)";
           }).join(','));
         } else if (op == '+') {
           pathBuffer.write(expr.split(',').map((varspec) {
@@ -235,7 +237,7 @@ class _Compiler {
             pathVariables.add(_varspecRegex.firstMatch(varspec).group(1));
             // The + operator allows reserved chars, except ?, #, [,  and ]
             // which cannot appear in URI paths
-            return r"((?:\w|[:/@!$&'()*+,;=])+)";
+            return r"((?:[^\]\[\?\#])+)";
           }).join(','));
         } else if (op == '?' || op == '&') {
           _compileQuery(match: match);

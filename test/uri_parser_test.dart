@@ -38,6 +38,11 @@ main() {
       }
     });
 
+    test('should parse dashes', () {
+      expectParse('/head/{a}/tail', '/head/xx-yy/tail', {'a': 'xx-yy'},
+          reverse: true);
+    });
+
     test('should parse query variables', () {
       expectParse('/foo{?a,b}', '/foo?a=xx&b=yy', {'a': 'xx', 'b': 'yy'});
       expectParse('/foo{?a,b}', '/foo?b=yy&a=xx', {'a': 'xx', 'b': 'yy'});
